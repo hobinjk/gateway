@@ -25,6 +25,10 @@ module.exports = {
       enabled: true,
       path: './adapters/philips-hue'
     },
+    tplight: {
+      enabled: true,
+      path: './adapters/tplight'
+    },
     zigbee: {
       enabled: true,
       path: './adapters/zigbee',
