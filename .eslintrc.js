@@ -13,6 +13,9 @@ module.exports = {
   'parserOptions': {
     'sourceType': 'module'
   },
+  'plugins': [
+    'html'
+  ],
   'rules': {
     'no-console': 0,
     'max-len': ['error', 80],
