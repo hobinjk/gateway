@@ -12,6 +12,7 @@
 
 var express = require('express');
 var adapterManager = require('../adapter-manager');
+var APIError = require('../APIError');
 
 var debugController = express.Router();
 
@@ -87,7 +88,8 @@ debugController.get('/device/:deviceId', (request, response) => {
   if (device) {
     response.status(200).json(device.asDict());
   } else {
-    response.status(404).send('Device "' + deviceId + '" not found.');
+    response.status(404)
+      .send(new APIError('Device "' + deviceId + '" not found.').toString());
   }
 });
 
@@ -106,10 +108,12 @@ debugController.get('/device/:deviceId/:propertyName', (request, response) => {
     }).catch((error) => {
       console.log('Device "' + deviceId + '"');
       console.log(error);
-      response.status(404).send('Device "' + deviceId + error);
+      response.status(404)
+        .send(new APIError('Device "' + deviceId + error).toString());
     });
   } else {
-    response.status(404).send('Device "' + deviceId + '" not found.');
+    response.status(404)
+      .send(new APIError('Device "' + deviceId + '" not found.').toString());
   }
 });
 
@@ -130,15 +134,17 @@ debugController.put('/device/:deviceId/:propertyName', (request, response) => {
       }).catch((error) => {
         console.log('Device "' + deviceId + '"');
         console.log(error);
-        response.status(404).send('Device "' + deviceId + '" ' + error);
+        response.status(404)
+          .send(new APIError('Device "' + deviceId + '" ' + error).toString());
       });
     } else {
-      response.status(404).send('Device "' + deviceId +
+      response.status(404).send(new APIError('Device "' + deviceId +
                                 '" property "' + propertyName +
-                                '" not found in request.');
+                                '" not found in request.').toString());
     }
   } else {
-    response.status(404).send('Device "' + deviceId + '" not found.');
+    response.status(404)
+      .send(new APIError('Device "' + deviceId + '" not found.').toString());
   }
 });
 
@@ -158,7 +164,8 @@ debugController.get('/thing/:thingId', (request, response) => {
   if (thing) {
     response.status(200).json(thing);
   } else {
-    response.status(404).send('Thing "' + thingId + '" not found.');
+    response.status(404)
+      .send(new APIError('Thing "' + thingId + '" not found.').toString());
   }
 });
 
@@ -175,10 +182,12 @@ debugController.get('/thing/:thingId/:propertyName', (request, response) => {
       valueDict[propertyName] = value;
       response.status(200).json(valueDict);
     }).catch((error) => {
-      response.status(404).send('Thing "' + thingId + ' ' + error);
+      response.status(404)
+        .send(new APIError('Thing "' + thingId + ' ' + error).toString());
     });
   } else {
-    response.status(404).send('Thing "' + thingId + '" not found.');
+    response.status(404)
+      .send(new APIError('Thing "' + thingId + '" not found.').toString());
   }
 });
 
@@ -199,15 +208,17 @@ debugController.put('/thing/:thingId/:propertyName', (request, response) => {
       }).catch((error) => {
         console.log('Thing "' + thingId);
         console.log(error);
-        response.status(404).send('Thing "' + thingId + ' ' + error);
+        response.status(404)
+          .send(new APIError('Thing "' + thingId + ' ' + error).toString());
       });
     } else {
-      response.status(404).send('Thing "' + thingId +
+      response.status(404).send(new APIError('Thing "' + thingId +
                                 '" property "' + propertyName +
-                                '" not found in request.');
+                                '" not found in request.').toString());
     }
   } else {
-    response.status(404).send('Thing "' + thingId + '" not found.');
+    response.status(404)
+      .send(new APIError('Thing "' + thingId + '" not found.').toString());
   }
 });
 
@@ -225,7 +236,8 @@ debugController.get('/removeThing/:thingId', (request, response) => {
     response.status(200).json({removed: thingIdRemoved});
   }, (str) => {
     console.log('debugController: remove failed:', str);
-    response.status(500).send('remove of ' + thingId + ' failed: ' + str);
+    response.status(500).send(new APIError(
+        'remove of ' + thingId + ' failed: ' + str).toString());
   });
 });
 

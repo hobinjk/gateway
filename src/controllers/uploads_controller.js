@@ -10,6 +10,7 @@
 
 'use strict';
 
+const APIError = require('../APIError');
 const express = require('express');
 const path = require('path');
 const config = require('config');
@@ -24,12 +25,14 @@ var UploadsController = express.Router();
  */
 UploadsController.post('/', function (request, response) {
   if (!request.files || !request.files.file) {
-    return response.status(500).send('No file provided for upload');
+    return response.status(500)
+      .send(new APIError('No file provided for upload').toString());
   }
   var file = request.files.file;
   file.mv(FLOORPLAN_PATH, function(error) {
     if (error) {
-      return response.status(500).send('Failed to save uploaded file ' + error);
+      return response.status(500)
+        .send(new APIError('Failed to save uploaded file', error).toString());
     }
     response.status(201).send('Successfully uploaded file');
   });

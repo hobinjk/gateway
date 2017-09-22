@@ -13,6 +13,7 @@
 const path = require('path');
 
 const Router = require('express-promise-router');
+const APIError = require('../APIError');
 const Users = require('../models/users');
 const JSONWebToken = require('../models/jsonwebtoken');
 const Passwords = require('../passwords');
@@ -35,7 +36,8 @@ LoginController.get('/', async (request, response) => {
 LoginController.post('/', async (request, response) => {
   const {body} = request;
   if (!body || !body.email || !body.password) {
-    response.status(400).send('User requires email and password');
+    response.status(400)
+      .send(new APIError('User requires email and password').toString());
     return;
   }
 

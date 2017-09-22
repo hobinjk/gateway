@@ -18,6 +18,7 @@ const leChallengeDns = require('le-challenge-dns').create({ debug: false })
 const config = require('config');
 const fetch = require('node-fetch');
 const fs = require('fs');
+const APIError = require('../APIError');
 const TunnelService = require('../ssltunnel');
 const Settings = require('../models/settings');
 
@@ -31,7 +32,8 @@ SettingsController.put('/experiments/:experimentName',
   var experimentName = request.params.experimentName;
 
   if(!request.body || request.body['enabled'] === undefined) {
-    response.status(400).send('Enabled property not defined');
+    response.status(400)
+      .send(new APIError('Enabled property not defined').toString());
     return;
   }
   var enabled = request.body['enabled'];
@@ -40,9 +42,10 @@ SettingsController.put('/experiments/:experimentName',
   .then(function(result) {
     response.status(200).json({'enabled': result});
   }).catch(function(e) {
-    console.error('Failed to set setting experiments.' + experimentName);
+    var error = 'Failed to set setting experiments.' + experimentName;
+    console.error(error);
     console.error(e);
-    response.status(400).send(e);
+    response.status(400).send(new APIError(error, e).toString());
   });
 });
 
@@ -56,14 +59,15 @@ SettingsController.get('/experiments/:experimentName',
   Settings.get('experiments.' + experimentName + '.enabled')
   .then(function(result) {
     if (result === undefined) {
-      response.status(404).send('Setting not found');
+      response.status(404).send(new APIError('Setting not found').toString());
     } else {
       response.status(200).json({'enabled': result});
     }
   }).catch(function(e) {
-    console.error('Failed to get setting experiments.' + experimentName);
+    var error = 'Failed to get setting experiments.' + experimentName;
+    console.error(error)
     console.error(e);
-    response.status(400).send(e);
+    response.status(400).send(new APIError(error, e).toString());
   });
 });
 

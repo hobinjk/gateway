@@ -12,6 +12,7 @@
 
 var express = require('express');
 var adapterManager = require('../adapter-manager');
+var APIError = require('../APIError');
 
 var adaptersController = express.Router();
 
@@ -37,7 +38,8 @@ adaptersController.get('/:adapterId/', (request, response) => {
   if (adapter) {
     response.json(adapter.asDict());
   } else {
-    response.status(404).send('Adapter "' + adapterId + '" not found.');
+    var error = 'Adapter "' + adapterId + '" not found.';
+    response.status(404).send(new APIError(error).toString());
   }
 });
 

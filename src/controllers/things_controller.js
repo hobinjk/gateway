@@ -12,6 +12,7 @@
 
 const express = require('express');
 const AdapterManager = require('../adapter-manager');
+const APIError = require('../APIError');
 const Constants = require('../constants.js');
 const Things = require('../models/things');
 
@@ -31,7 +32,8 @@ ThingsController.get('/', function (request, response) {
  */
 ThingsController.post('/', function (request, response) {
   if (!request.body || !request.body.id) {
-    response.status(400).send('No id in thing description');
+    response.status(400)
+      .send(new APIError('No id in thing description').toString());
     return;
   }
   var description = request.body;
@@ -41,9 +43,11 @@ ThingsController.post('/', function (request, response) {
     console.log('Successfully created new thing ' + thing.name);
     response.status(201).send(thing);
   }).catch(function(error) {
-    console.error('Error saving new thing', id, description);
+    const errorMessage = 'Error saving new thing: ' + id + '=' +
+      JSON.stringify(description);
+    console.error(errorMessage);
     console.error(error);
-    response.status(500).send(error);
+    response.status(500).send(new APIError(errorMessage, error).toString());
   });
 });
 
@@ -55,9 +59,10 @@ ThingsController.post('/', function (request, response) {
    Things.getThingDescription(id).then(function(thing) {
      response.status(200).json(thing);
    }).catch(function(error) {
-     console.error('Error getting thing description for thing with id ' + id);
+     const errorMessage = 'Error getting thing description for thing with id '
+       + id;
      console.error('Error: ' + error);
-     response.status(404).send(error);
+     response.status(404).send(new APIError(errorMessage, error).toString());
    });
  });
 
@@ -73,10 +78,11 @@ ThingsController.get('/:thingId/properties/:propertyName',
     result[propertyName] = value;
     response.status(200).json(result);
   }).catch((error) => {
-    console.error('Error getting value for thingId:', thingId,
-                  'property:', propertyName);
+    const errorMessage =
+      `Error getting value for thingId: ${thingId} property: ${propertyName}`;
+    console.error(errorMessage);
     console.error(error);
-    response.status(500).send(error);
+    response.status(500).send(new APIError(errorMessage, error).toString());
   });
 });
 
@@ -88,7 +94,8 @@ ThingsController.put('/:thingId/properties/:propertyName',
   var thingId = request.params.thingId;
   var propertyName = request.params.propertyName;
   if(!request.body || request.body[propertyName] === undefined) {
-    response.status(400).send('Invalid property name');
+    response.status(400)
+      .send(new APIError('Invalid property name').toString());
     return;
   }
   var value = request.body[propertyName];
@@ -99,10 +106,10 @@ ThingsController.put('/:thingId/properties/:propertyName',
       result[propertyName] = updatedValue;
       response.status(200).json(result);
     }).catch((error) => {
-      console.error('Error setting value for thingId:', thingId,
-                    'property:', propertyName,
-                    'value:', value);
-      response.status(500).send(error);
+      let errorMessage = 'Error setting value for thingId: ' + thingId;
+      errorMessage += ' value: ' + JSON.stringify(value);
+      console.error(errorMessage);
+      response.status(500).send(new APIError(errorMessage, error).toString());
     });
 });
 
@@ -113,7 +120,8 @@ ThingsController.patch('/:thingId', function(request, response) {
   var thingId = request.params.thingId;
   if(!request.body ||
     !request.body['floorplanX'] || !request.body['floorplanY']) {
-    response.status(400).send('x and y properties needed to position Thing');
+    response.status(400).send(new APIError(
+      'x and y properties needed to position Thing').toString());
     return;
   }
   Things.getThing(thingId).then((thing) => {
@@ -123,7 +131,8 @@ ThingsController.patch('/:thingId', function(request, response) {
   }).then((description) => {
     response.status(200).json(description);
   }).catch(function(e) {
-    response.status(500).send('Failed to update thing ' + thingId + ' ' + e);
+    response.status(500).send(
+      new APIError('Failed to update thing ' + thingId + ' ' + e).toString());
   });
 
 });
@@ -139,7 +148,8 @@ ThingsController.delete('/:thingId', function(request, response) {
       response.status(204).send();
     });
   } catch(e) {
-    response.status(500).send('Failed to remove thing ' + thingId);
+    response.status(500).send(
+      new APIError('Failed to remove thing ' + thingId).toString());
   }
 });
 

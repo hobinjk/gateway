@@ -10,6 +10,7 @@
 
 'use strict';
 
+const APIError = require('../APIError');
 const Router = require('express-promise-router');
 const Passwords = require('../passwords');
 const Users = require('../models/users');
@@ -49,13 +50,15 @@ UsersController.post('/', async (request, response) => {
   let body = request.body;
 
   if (!body || !body.email || !body.password) {
-    response.status(400).send('User requires email and password');
+    response.status(400)
+      .send(new APIError('User requires email and password').toString());
     return;
   }
 
   const count = await Users.getCount();
   if (count > 0) {
-    response.status(400).send('Gateway user already created');
+    response.status(400)
+      .send(new APIError('Gateway user already created').toString());
     return;
   }
 

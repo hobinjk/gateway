@@ -12,6 +12,7 @@
 var express = require('express');
 var Action = require('../models/action');
 var Actions = require('../models/actions');
+var APIError = require('../APIError');
 
 var ActionsController = express.Router();
 
@@ -20,7 +21,8 @@ var ActionsController = express.Router();
  */
 ActionsController.post('/', function (request, response) {
   if (!request.body.name) {
-    response.status(400).send('No action name provided');
+    response.status(400)
+      .send(new APIError('No action name provided').toString());
     return;
   }
 
@@ -32,9 +34,10 @@ ActionsController.post('/', function (request, response) {
     Actions.add(action);
     response.status(201).json(action.getDescription());
   } catch(e) {
-    console.error('Creating action', actionName, 'failed');
+    var error = `Creating action ${actionName} failed`;
+    console.error(error);
     console.error(e);
-    response.status(400).send(e);
+    response.status(400).send(new APIError(error, e).toString());
   }
 });
 
@@ -56,7 +59,7 @@ ActionsController.get('/:actionId', function(request, response) {
   } else {
     var error = 'Action "' + actionId + '" not found';
     console.error(error);
-    response.status(404).send(error);
+    response.status(404).send(new APIError(error).toString());
   }
 });
 
@@ -68,9 +71,10 @@ ActionsController.delete('/:actionId', function(request, response) {
   try {
     Actions.remove(actionId);
   } catch(e) {
-    console.error('Removing action', actionId, 'failed');
+    var error = `Removing action ${actionId} failed`;
+    console.error(error);
     console.error(e);
-    response.status(404).send(e);
+    response.status(404).send(new APIError(error, e).toString());
     return;
   }
   response.status(204).send();

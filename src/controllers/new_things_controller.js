@@ -12,6 +12,7 @@
 'use strict';
 
 var express = require('express');
+var APIError = require('../APIError');
 var Things = require('../models/things');
 
 var NewThingsController = express.Router();
@@ -23,8 +24,8 @@ NewThingsController.get('/', function (request, response) {
   Things.getNewThings().then(function(newThings) {
     response.json(newThings);
   }).catch(function(error) {
-    console.error('Error getting a list of new things from adapters ' + error);
-    response.status(500).send(error);
+    let errorMessage = 'Error getting a list of new things from adapters';
+    response.status(500).send(new APIError(errorMessage, error).toString());
   });
 });
 
