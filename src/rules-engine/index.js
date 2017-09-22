@@ -9,7 +9,7 @@ const config = require('config');
 const storage = require('node-persist');
 const winston = require('winston');
 
-const APIError = require('./APIError');
+const APIError = require('../APIError');
 const Database = require('./Database');
 const Engine = require('./Engine');
 const JSONWebToken = require('../models/jsonwebtoken');
