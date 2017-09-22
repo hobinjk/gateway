@@ -92,6 +92,9 @@ NewThing.prototype.save = function() {
     }
   })
   .then((function(response) {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
     return response.json();
   }).bind(this)).then((function(json) {
     console.log('Successfully created thing ' + json);
@@ -100,6 +103,6 @@ NewThing.prototype.save = function() {
     this.saveButton.disabled = true;
   }).bind(this))
   .catch(function(error) {
-    console.error('Failed to save thing ' + error);
+    console.error('Failed to save thing', error);
   });
 };

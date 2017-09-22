@@ -44,6 +44,9 @@ createDomainButton.addEventListener('click', function() {
             'Content-Type': 'application/json'
         }
     }).then(function (response) {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
         return response.text();
     }).then(function (body){
         if (body) {

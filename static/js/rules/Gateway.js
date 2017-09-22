@@ -21,6 +21,9 @@ Gateway.prototype.readThings = function() {
   return fetch('/things', {
     headers: API.headers()
   }).then(res => {
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
     return res.json();
   }).then(things => {
     this.things = things;

@@ -22,6 +22,9 @@ var RulesScreen = {
    */
   readRules: function readRules() {
     return fetch('/rules', {headers: API.headers()}).then(res => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
       return res.json();
      }).then(fetchedRules => {
        this.rulesList.querySelectorAll('.rule').forEach(elt => {
@@ -34,6 +37,8 @@ var RulesScreen = {
        for (let ruleDesc of fetchedRules) {
          this.addRuleCard(ruleDesc);
        }
+    }).catch(err => {
+      console.error('Unable to display rules:', err);
     });
   },
   /**

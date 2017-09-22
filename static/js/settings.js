@@ -83,6 +83,9 @@ var SettingsScreen = {
       }
     };
     fetch('/settings/tunnelinfo', opts).then(function (response) {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
       return response.text();
     }).then(function (body) {
       if (body) {
@@ -90,6 +93,8 @@ var SettingsScreen = {
       } else {
         document.getElementById('current-domain').innerText = 'Not set.';
       }
+    }).catch(function(err) {
+      console.error('Unable to show current domain', err);
     });
   },
 

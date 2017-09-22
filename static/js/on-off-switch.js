@@ -78,6 +78,9 @@ OnOffSwitch.prototype.updateStatus = function() {
     }
   };
   fetch(this.onPropertyUrl, opts).then((function(response) {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
     return response.json();
   }).bind(this)).then((function(response) {
     this.properties.on = response.on;
@@ -148,7 +151,7 @@ OnOffSwitch.prototype.turnOn = function() {
    }
   })
   .then((function(response) {
-   if (response.status == 200) {
+   if (response.ok) {
      this.showOn();
      this.properties.on = true;
    } else {
@@ -179,7 +182,7 @@ OnOffSwitch.prototype.turnOff = function() {
     }
   })
   .then((function(response) {
-    if (response.status == 200) {
+    if (response.ok) {
       this.showOff();
       this.properties.on = false;
     } else {

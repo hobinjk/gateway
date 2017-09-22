@@ -9,7 +9,7 @@
  */
  'use strict';
 
-/* globals App, NewThing */
+/* globals API, App, NewThing */
 
 var AddThingScreen = {
 
@@ -35,7 +35,7 @@ var AddThingScreen = {
    * Create a new "pair" action on the gateway.
    */
   requestPairing: function() {
-    var path = `wss://${App.HOST}/new_things?jwt=${window.API.jwt}`;
+    var path = `wss://${App.HOST}/new_things?jwt=${API.jwt}`;
     // Create a websocket to start listening for new things
     var socket = new WebSocket(path);
     socket.onmessage = (function(event) {
@@ -55,13 +55,16 @@ var AddThingScreen = {
       }
     })
     .then(function(response) {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
       return response.json();
     }).then(function(json) {
       AddThingScreen.actionUrl = json.href;
       console.log('Pairing request created with URL ' + json.href);
     })
     .catch(function(error) {
-      console.error('Pairing request failed: ' + error);
+      console.error('Pairing request failed:', error);
     });
   },
 
@@ -78,7 +81,7 @@ var AddThingScreen = {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${window.API.jwt}`
+        'Authorization': `Bearer ${API.jwt}`
       }
     })
     .then(function(response) {

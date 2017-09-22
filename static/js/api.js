@@ -133,7 +133,7 @@
           'Accept': 'application/json'
         }
       }).then((res) => {
-        if (res.status !== 200) {
+        if (!res.ok) {
           console.error('Logout failed...');
         }
       });

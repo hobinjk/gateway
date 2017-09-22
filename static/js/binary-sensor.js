@@ -75,6 +75,9 @@ BinarySensor.prototype.updateStatus = function() {
     }
   };
   fetch(this.triggeredPropertyUrl, opts).then((function(response) {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
     return response.json();
   }).bind(this)).then((function(response) {
     this.properties.triggered = response.triggered;

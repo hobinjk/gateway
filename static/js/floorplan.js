@@ -51,6 +51,9 @@ var FloorplanScreen = {
     };
     // Fetch a list of things from the server
     fetch('/things', opts).then((function(response) {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
       return response.json();
     }).bind(this)).then((function(things) {
       this.things = [];
@@ -82,7 +85,9 @@ var FloorplanScreen = {
           }
         }, this);
       }
-    }).bind(this));
+    }).bind(this)).catch(function(err) {
+      console.error('Error getting things in floorplan', err);
+    });
   },
 
  /**

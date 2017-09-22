@@ -42,7 +42,9 @@ const RuleScreen = {
 
     this.ruleName.addEventListener('blur', () => {
       this.rule.name = this.ruleName.textContent;
-      this.rule.update();
+      this.rule.update().catch(function(err) {
+        console.error('Unable to update rule', err);
+      });
     });
 
     this.ruleDescription = this.view.querySelector('.rule-info > p');
@@ -196,6 +198,9 @@ const RuleScreen = {
       rulePromise = fetch('/rules/' + ruleId, {
         headers: API.headers()
       }).then(function(res) {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
         return res.json();
       });
     }
@@ -240,6 +245,8 @@ const RuleScreen = {
         }
       }
       this.onRuleUpdate();
+    }).catch(function(err) {
+      console.error('Unable to show rule:', err);
     });
   }
 };

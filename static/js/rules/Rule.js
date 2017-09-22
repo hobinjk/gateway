@@ -55,6 +55,9 @@ Rule.prototype.update = function() {
   } else {
     fetchOptions.method = 'POST';
     request = fetch('/rules/', fetchOptions).then(res => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
       return res.json();
     }).then(rule => {
       this.id = rule.id;
