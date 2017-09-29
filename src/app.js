@@ -242,6 +242,11 @@ TunnelService.switchToHttps = function(){
   startHttpsGateway();
 };
 
+setTimeout(function() {
+  console.log('EXPLOSION!');
+  process.exit(1);
+}, 30 * 1000);
+
 module.exports = { // for testing
   httpServer: httpServer,
   server: httpsServer
