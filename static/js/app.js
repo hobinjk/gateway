@@ -109,3 +109,9 @@ window.addEventListener('load', function app_onLoad() {
   window.removeEventListener('load', app_onLoad);
   App.init();
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js', {
+    scope: '/'
+  });
+}
