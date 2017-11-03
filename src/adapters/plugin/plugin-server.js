@@ -1,9 +1,11 @@
 /**
- * @module PluginServer
+ * PluginServer
  *
  * Takes care of the gateway side of adapter plugins. There is
  * only a single instance of the PluginServer for the entire gateway.
  * There will be an AdapterProxy instance for each adapter plugin.
+ *
+ * @module PluginServer
  */
 /**
  * This Source Code Form is subject to the terms of the Mozilla Public

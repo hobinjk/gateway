@@ -30,9 +30,8 @@ class PropertyProxy extends Property {
   }
 
   /**
-   * @method onPropertyChanged
-   * @returns a promise which is resoved when the next
-   * propertyChanged notification is received.
+   * @return {Promise} resolved when the next propertyChanged notification is
+   * received.
    */
   onPropertyChanged() {
     var deferredChange = new Deferred();
@@ -41,7 +40,6 @@ class PropertyProxy extends Property {
   }
 
   /**
-   * @method doPropertyChanged
    * Called whenever a property changed notification is received
    * from the adapter.
    */
