@@ -118,6 +118,10 @@ Rule.prototype.toTriggerHumanDescription = function() {
     RuleUtils.byProperty(this.trigger.property)
   )[0];
 
+  if (!triggerThing) {
+    return '???';
+  }
+
   let triggerStr = `${triggerThing.name} `;
   if (this.trigger.type === 'BooleanTrigger') {
     triggerStr += 'is ';
@@ -146,6 +150,10 @@ Rule.prototype.toEffectHumanDescription = function() {
   let effectThing = this.gateway.things.filter(
     RuleUtils.byProperty(this.effect.property)
   )[0];
+
+  if (!effectThing) {
+    return '???';
+  }
 
   let effectStr = '';
   if (this.effect.property.name === 'on' &&
