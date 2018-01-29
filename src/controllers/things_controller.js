@@ -163,9 +163,12 @@ ThingsController.ws('/:thingId/', function(websocket, request) {
     thing.registerWebsocket(websocket);
     thing.addEventSubscription(onEvent);
 
-    websocket.on('close', function() {
+    function removeEventSubscription() {
       thing.removeEventSubscription(onEvent);
-    });
+    }
+
+    websocket.on('error', removeEventSubscription);
+    websocket.on('close', removeEventSubscription);
   }).catch(function() {
     console.error('WebSocket opened on nonexistent thing', thingId);
     websocket.send(JSON.stringify({
