@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 .thing {
   width: 12.8rem;
+  margin: 0.5rem;
   text-align: center;
-  margin: 1rem;
   display: inline-block;
   text-decoration: none;
   color: white;
@@ -30,6 +30,7 @@
 }
 
 .thing-detail {
+  box-sizing: border-box;
   width: 10rem;
   height: 10rem;
   border-radius: 5rem;
@@ -233,10 +234,10 @@
 }
 
 #thing-title {
-  width: 100%;
   text-align: center;
-  position: fixed;
-  top: 1.8rem;
+  line-height: 9.6rem;
+  padding: 0 9.6rem;
+  white-space: nowrap;
 }
 
 #thing-title-icon {

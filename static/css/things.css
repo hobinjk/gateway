@@ -4,17 +4,22 @@
 
 #things-view {
   height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 #things {
   text-align: center;
   font-size: 1.6rem;
   color: #fff;
-  position: relative;
+  position: absolute;
+  padding: 1rem 9.6rem;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   max-height: 100%;
+  width: 100%;
+  min-width: 340px;
+  box-sizing: border-box;
 }
 
 #add-button {
