@@ -9,7 +9,7 @@
 
 (function() {
   window.API = {
-    jwt: localStorage.getItem('jwt'),
+    jwt: localStorage.getItem('jwt') || 'authentication disabled',
 
     isLoggedIn() {
       return !!this.jwt;
