@@ -11,7 +11,16 @@
    id="svg35588"
    version="1.1">
   <defs
-     id="defs35590" />
+     id="defs35590">
+    <style type="text/css">
+      @font-face {
+        font-family: 'Open Sans';
+        font-weight: 400;
+        font-style: normal;
+        src: url("/fonts/opensans-regular.woff2") format("woff2"), url("/fonts/opensans-regular.woff") format("woff");
+      }
+    </style>
+   </defs>
   <metadata
      id="metadata35593">
     <rdf:RDF>
