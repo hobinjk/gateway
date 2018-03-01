@@ -28,6 +28,9 @@ class DeviceProxy extends Device {
       this.properties.set(propertyName, propertyProxy);
     }
 
+    this.actions = deviceDict.actions;
+    this.events = deviceDict.events;
+
     // Copy over any extra device fields which might be useful for debugging.
     this.deviceDict = {};
     for (let field in deviceDict) {
@@ -37,8 +40,6 @@ class DeviceProxy extends Device {
       }
       this.deviceDict[field] = deviceDict[field];
     }
-
-    //TODO: Add support for actions once we know what they look like.
   }
 
   asDict() {

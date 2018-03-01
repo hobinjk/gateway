@@ -21,7 +21,8 @@ class Device {
     this.name = '';
     this.description = '';
     this.properties = new Map();
-    this.actions = new Map();
+    this.actions = {};
+    this.events = {};
   }
 
   asDict() {
@@ -35,6 +36,7 @@ class Device {
         'type': this.type,
         'properties': properties,
         'actions': this.actions,
+        'events': this.events,
     };
   }
 
@@ -47,6 +49,8 @@ class Device {
       name: this.name,
       type: this.type,
       properties: this.getPropertyDescriptions(),
+      actions: this.actions,
+      events: this.events,
     };
     if (this.description) {
       thing.description = this.description;
