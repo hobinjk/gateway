@@ -3,6 +3,16 @@
 
 const CACHE = 'mozilla-iot-cache-0.0.1';
 
+async function notifyOffline(clientId) {
+  let client = await self.clients.get(clientId);
+  if (!client) {
+    return;
+  }
+  client.postMessage({
+    offline: true
+  });
+}
+
 self.addEventListener('fetch', function(event) {
   let accept = event.request.headers.get('Accept');
   if (accept === 'application/json' || event.request.method !== 'GET' ||
@@ -15,8 +25,12 @@ self.addEventListener('fetch', function(event) {
     let matching = await cache.match(event.request);
     if (matching) {
       event.waitUntil((async () => {
-        let response = await fetch(event.request);
-        await cache.put(event.request, response.clone());
+        try {
+          let response = await fetch(event.request);
+          await cache.put(event.request, response.clone());
+        } catch(e) {
+          await notifyOffline(event.clientId);
+        }
       })());
       return matching;
     } else {

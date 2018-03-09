@@ -101,6 +101,10 @@ if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/service-worker.js', {
     scope: '/'
   });
+
+  navigator.serviceWorker.addEventListener('message', function(event) {
+    alert('Offline: ' + JSON.stringify(event.data.message));
+  });
 }
 
 /**
