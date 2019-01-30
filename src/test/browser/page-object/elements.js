@@ -122,7 +122,7 @@ class Page extends Elements {
      */
     this[name] = async () => {
       const rootElement = this.rootElement || this.browser;
-      const e = rootElement.$(selector);
+      const e = await rootElement.$(selector);
       return new section(this.browser, e);
     };
 
