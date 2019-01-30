@@ -38,7 +38,7 @@ class InputPropertySection extends Section {
     keys.push(value);
     keys.push(ENTER_UNICODE);
     const input = await this.input();
-    await input.setValue(keys);
+    await input.setValue(keys.join(''));
   }
 }
 
@@ -72,7 +72,7 @@ class BrightnessPropertySection extends InputPropertySection {
       keys.push(key);
     }
     const input = await this.input();
-    await input.setValue(keys);
+    await input.setValue(keys.join(''));
   }
 
   async getValue() {
@@ -102,7 +102,7 @@ class LevelPropertySection extends InputPropertySection {
       keys.push(key);
     }
     const slider = await this.slider();
-    await slider.setValue(keys);
+    await slider.setValue(keys.join(''));
   }
 
   async getValue() {
