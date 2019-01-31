@@ -102,7 +102,7 @@ class LevelPropertySection extends InputPropertySection {
       keys.push(key);
     }
     const slider = await this.slider();
-    await slider.setValue(keys.join(''));
+    await slider.addValue(keys.join(''));
   }
 
   async getValue() {

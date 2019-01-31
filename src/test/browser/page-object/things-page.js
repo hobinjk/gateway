@@ -64,7 +64,7 @@ class ThingSection extends Section {
       return icon.style.fill;
     `);
 
-    const rgb = fill.value.match(/^rgb\((\d+), (\d+), (\d+)\)$/);
+    const rgb = fill.match(/^rgb\((\d+), (\d+), (\d+)\)$/);
     const colorStyle = `#${
       Number(rgb[1]).toString(16)}${
       Number(rgb[2]).toString(16)}${
