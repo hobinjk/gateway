@@ -14,7 +14,7 @@
 const AddonManagerProxy = require('./addon-manager-proxy');
 const Constants = require('../constants');
 const Deferred = require('../deferred');
-const EventEmitter = require('events');
+const EventEmitter = require('../events').EventEmitter;
 const IpcSocket = require('./ipc');
 
 class PluginClient extends EventEmitter {

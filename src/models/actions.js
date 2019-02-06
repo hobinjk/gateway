@@ -13,7 +13,7 @@
 const Things = require('../models/things');
 const AddonManager = require('../addon-manager');
 const Constants = require('../constants');
-const EventEmitter = require('events');
+const EventEmitter = require('../events').EventEmitter;
 
 class Actions extends EventEmitter {
 

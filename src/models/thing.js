@@ -12,7 +12,7 @@
 
 const Constants = require('../constants');
 const Database = require('../db.js');
-const EventEmitter = require('events');
+const EventEmitter = require('../events').EventEmitter;
 const Router = require('../router');
 const UserProfile = require('../user-profile');
 const WebSocket = require('ws');

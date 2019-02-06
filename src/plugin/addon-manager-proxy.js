@@ -13,7 +13,7 @@
 
 const config = require('config');
 const Constants = require('../constants');
-const EventEmitter = require('events').EventEmitter;
+const EventEmitter = require('../events').EventEmitter;
 
 const DEBUG = false;
 

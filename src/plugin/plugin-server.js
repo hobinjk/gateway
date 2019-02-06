@@ -14,7 +14,7 @@
 'use strict';
 
 const Constants = require('../constants');
-const EventEmitter = require('events');
+const EventEmitter = require('../events').EventEmitter;
 const IpcSocket = require('./ipc');
 const Plugin = require('./plugin');
 

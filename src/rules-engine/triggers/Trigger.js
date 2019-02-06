@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.*
  */
-const EventEmitter = require('events').EventEmitter;
+const EventEmitter = require('../../events').EventEmitter;
 
 /**
  * The trigger component of a Rule which monitors some state and passes on

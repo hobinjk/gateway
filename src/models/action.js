@@ -12,7 +12,7 @@
 
 const Actions = require('../models/actions');
 const Constants = require('../constants');
-const EventEmitter = require('events');
+const EventEmitter = require('../events').EventEmitter;
 const {Utils} = require('gateway-addon');
 
 class Action extends EventEmitter {
