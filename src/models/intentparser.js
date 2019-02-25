@@ -34,9 +34,9 @@ const IntentParser = {
 
   buildMessage: function(data) {
     data = JSON.stringify(data);
-    const buffer = Buffer.alloc(4 + data.length);
-    buffer.writeUInt32BE(data.length, 0);
-    buffer.write(data, 4);
+    // Pad buffer by 4 bytes to allow writing the length in that space
+    const buffer = Buffer.from(`    ${data}`, 'utf8');
+    buffer.writeUInt32BE(buffer.length - 4, 0);
     return buffer;
   },
 
