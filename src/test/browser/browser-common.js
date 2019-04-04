@@ -28,10 +28,12 @@ const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 let child;
 let browser;
 beforeAll(async () => {
+  console.log('browser-common beforeAll start');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
   // Starting up and interacting with a browser takes forever
   await new Promise((res, rej) => {
     selenium.install((err) => {
+      console.log('browser-common beforeAll selenium installed', err);
       if (err) {
         rej(err);
       } else {
@@ -41,6 +43,7 @@ beforeAll(async () => {
   });
   child = await new Promise((res, rej) => {
     selenium.start((err, child) => {
+      console.log('browser-common beforeAll selenium started', err, child);
       if (err) {
         rej(err);
       } else {
@@ -50,15 +53,19 @@ beforeAll(async () => {
   });
   options.baseUrl = `https://localhost:${server.address().port}`;
   browser = await remote(options);
+  console.log('browser-common beforeAll webdriverio started', browser);
 
   await browser.setWindowRect(null, null, 1280, 800);
+  console.log('browser-common beforeAll webdriverio setWindowRect done');
 });
 
 afterAll(async () => {
+  console.log('browser-common afterAll start');
   jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   await browser.deleteSession();
   child.stdin.pause();
   child.kill();
+  console.log('browser-common afterAll end');
 });
 
 function getBrowser() {
@@ -77,10 +84,12 @@ jasmine.getEnv().addReporter({
 });
 
 beforeEach(async () => {
+  console.log('browser-common beforeEach');
   screenShots = [];
 });
 
 afterEach(async () => {
+  console.log('browser-common afterEach', compareImageDisabled);
   if (compareImageDisabled) {
     return;
   }
