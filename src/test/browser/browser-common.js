@@ -1,3 +1,4 @@
+console.log('browser-common line 0');
 const {remote} = require('webdriverio');
 const selenium = require('selenium-standalone');
 

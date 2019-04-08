@@ -8,6 +8,7 @@
 
 /* globals expect, jest */
 
+console.log('test-common line 0');
 process.env.NODE_ENV = 'test';
 
 const Database = require('../db');
