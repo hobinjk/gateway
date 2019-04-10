@@ -25,7 +25,7 @@ const path = require('path');
 const chai = require('./chai');
 global.chai = chai;
 
-const debugJasmine = false;
+const debugJasmine = true;
 
 if (debugJasmine) {
   // The following debug code can prove to be very useful when
