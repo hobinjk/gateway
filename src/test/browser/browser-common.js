@@ -26,6 +26,7 @@ const options = {
 };
 
 const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+let child;
 let browser;
 beforeAll(async () => {
   console.log('browser-common beforeAll start');
@@ -41,7 +42,7 @@ beforeAll(async () => {
       }
     });
   });
-  await new Promise((res, rej) => {
+  child = await new Promise((res, rej) => {
     selenium.start((err, child) => {
       console.log('browser-common beforeAll selenium started', err, child);
       if (err) {
@@ -64,7 +65,7 @@ afterAll(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   await browser.deleteSession();
   // child.stdin.pause();
-  // child.kill();
+  child.kill();
   console.log('browser-common afterAll end');
 });
 
