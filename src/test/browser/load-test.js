@@ -4,6 +4,7 @@ const {getBrowser} = require('./browser-common');
 const AddonManager = require('../../addon-manager');
 
 describe('basic browser tests', () => {
+  console.log('load-test describe fn does happen');
   afterEach(async () => {
     try {
       await AddonManager.uninstallAddon('virtual-things-adapter', true, false);
@@ -14,6 +15,7 @@ describe('basic browser tests', () => {
 
 
   it('creates a user', async () => {
+    console.log('load-test creates a user fn does happen');
     const browser = getBrowser();
 
     let stepNumber = 0;
