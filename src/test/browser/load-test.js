@@ -1,3 +1,4 @@
+console.log('load-test line 0');
 const fs = require('fs');
 
 const {getBrowser} = require('./browser-common');

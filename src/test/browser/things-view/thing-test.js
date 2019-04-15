@@ -1,3 +1,4 @@
+console.log('things-view/thing-test line 0');
 const {getBrowser, saveStepScreen} = require('../browser-common');
 const {
   addThing,
@@ -14,6 +15,7 @@ const Utils = require(`${STATIC_JS_PATH}/utils`);
 
 
 describe('Thing', () => {
+  console.log('things-view/thing-test describe called');
   it('should render an unknown thing and be able to change properties',
      async () => {
        const browser = getBrowser();

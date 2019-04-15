@@ -1,14 +1,16 @@
+console.log('settings-view/addon-test line 0');
 const {getBrowser, saveStepScreen} = require('../browser-common');
 const {getAddons} = require('../test-utils');
 const SettingsPage = require('../page-object/settings-page');
 const {waitForExpect} = require('../../expect-utils');
 
 const addonManager = require('../../../addon-manager');
-afterEach(async () => {
-  await addonManager.uninstallAddon('virtual-things-adapter', true, false);
-});
-
 describe('Addon', () => {
+  console.log('settings-view/addon-test describe called');
+  afterEach(async () => {
+    await addonManager.uninstallAddon('virtual-things-adapter', true, false);
+  });
+
   it('should be able to install the virtual-things-adapter', async () => {
     const browser = getBrowser();
 
