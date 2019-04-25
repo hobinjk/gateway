@@ -55,11 +55,11 @@ class DNSserviceDiscovery {
 
     this.handleError = (e) => {
       console.debug(`mDNS error: ${e}`);
-      setTimeout(() => {
-        if (this.serviceState && this.dnssdHandle) {
-          this.dnssdHandle.start();
-        }
-      }, 10000);
+      // setTimeout(() => {
+      //   if (this.serviceState && this.dnssdHandle) {
+      //     this.dnssdHandle.start();
+      //   }
+      // }, 10000);
     };
 
     if (!Platform.implemented('setMdnsServerStatus')) {
