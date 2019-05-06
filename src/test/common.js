@@ -141,6 +141,7 @@ afterAll(async () => {
 
 // Some tests take really long if Travis is having a bad day
 jest.setTimeout(60000);
+jest.retryTimes(3);
 
 module.exports = {
   mockAdapter,
