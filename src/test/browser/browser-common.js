@@ -24,11 +24,9 @@ const options = {
   },
 };
 
-const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 let child;
 let browser;
 beforeAll(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
   // Starting up and interacting with a browser takes forever
   await new Promise((res, rej) => {
     selenium.install((err) => {
@@ -55,7 +53,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   await browser.deleteSession();
   child.stdin.pause();
   child.kill();
@@ -65,16 +62,16 @@ function getBrowser() {
   return browser;
 }
 
-let stepName = '';
+const stepName = 'unknown';
 let stepNumber = 0;
 let screenShots = [];
 
-jasmine.getEnv().addReporter({
-  specStarted: (result) => {
-    stepName = result.fullName;
-    stepNumber = 0;
-  },
-});
+// jasmine.getEnv().addReporter({
+//   specStarted: (result) => {
+//     stepName = result.fullName;
+//     stepNumber = 0;
+//   },
+// });
 
 beforeEach(async () => {
   screenShots = [];
