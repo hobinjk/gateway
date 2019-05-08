@@ -127,16 +127,24 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+  console.log('now all falls silent');
   Logs.close();
+  console.log('trees fall away cut to stumps');
   await addonManager.unloadAddons();
+  console.log('grow small faded green');
   servers.https.close();
+  console.log('safety lacking');
   servers.http.close();
+  console.log('the time to shut comes too soon');
   mDNSserver.server.setState(false);
+  console.log('hide close forever');
   await Promise.all([
     e2p(servers.https, 'close'),
     e2p(servers.http, 'close'),
   ]);
+  console.log('awaited end comes');
   removeTestManifest();
+  console.log('removal follows');
 });
 
 // Some tests take really long if Travis is having a bad day
