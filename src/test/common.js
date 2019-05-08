@@ -126,23 +126,35 @@ afterEach(async () => {
   await Database.deleteEverything();
 });
 
-afterAll(async () => {
+afterAll(() => {
   console.log('now all falls silent');
   Logs.close();
   console.log('trees fall away cut to stumps');
+});
+
+afterAll(async () => {
   await addonManager.unloadAddons();
   console.log('grow small faded green');
+});
+
+afterAll(() => {
   servers.https.close();
   console.log('safety lacking');
   servers.http.close();
   console.log('the time to shut comes too soon');
   mDNSserver.server.setState(false);
   console.log('hide close forever');
+});
+
+afterAll(async () => {
   await Promise.all([
     e2p(servers.https, 'close'),
     e2p(servers.http, 'close'),
   ]);
   console.log('awaited end comes');
+});
+
+afterAll(() => {
   removeTestManifest();
   console.log('removal follows');
 });
