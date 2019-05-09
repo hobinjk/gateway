@@ -138,18 +138,34 @@ afterAll(async () => {
 });
 
 afterAll(() => {
-  servers.https.close();
-  console.log('safety lacking');
-  servers.http.close();
-  console.log('the time to shut comes too soon');
   mDNSserver.server.setState(false);
   console.log('hide close forever');
 });
 
 afterAll(async () => {
+  let httpsClosed = false;
+  let httpClosed = false;
+  servers.https.close(() => {
+    httpsClosed = true;
+  });
+  console.log('safety lacking');
+  servers.http.close(() => {
+    httpClosed = true;
+  });
+  console.log('the time to shut comes too soon');
   await Promise.all([
-    e2p(servers.https, 'close'),
-    e2p(servers.http, 'close'),
+    (async () => {
+      if (httpsClosed) {
+        return;
+      }
+      await e2p(servers.https, 'close');
+    })(),
+    (async () => {
+      if (httpClosed) {
+        return;
+      }
+      await e2p(servers.http, 'close');
+    })(),
   ]);
   console.log('awaited end comes');
 });
