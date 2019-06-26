@@ -121,6 +121,13 @@ const Database = {
    */
   migrate: function() {
     this.db.run('DROP TABLE IF EXISTS jsonwebtoken_to_user');
+
+    // table_info pragma doesn't work so just silently ignore any errors this
+    // line causes when the column already exists
+    this.db.run(
+      'ALTER TABLE jsonwebtokens ADD COLUMN metadata TEXT;',
+      (_err) => {}
+    );
   },
 
   /**
@@ -438,12 +445,14 @@ const Database = {
    * @param {JSONWebToken} token
    * @return {Promise<number>} resolved to JWT's primary key
    */
-  createJSONWebToken: async function(token) {
+  createJSONWebToken: async function(token, metadata = {}) {
     const {keyId, user, publicKey, issuedAt, payload} = token;
     const result = await this.run(
-      'INSERT INTO jsonwebtokens (keyId, user, issuedAt, publicKey, payload) ' +
-      'VALUES (?, ?, ?, ?, ?)',
-      [keyId, user, issuedAt, publicKey, JSON.stringify(payload)]
+      'INSERT INTO jsonwebtokens ' +
+      '(keyId, user, issuedAt, publicKey, payload, metadata) ' +
+      'VALUES (?, ?, ?, ?, ?, ?)',
+      [keyId, user, issuedAt, publicKey, JSON.stringify(payload),
+       JSON.stringify(metadata)]
     );
     assert(typeof result.lastID === 'number');
     return result.lastID;

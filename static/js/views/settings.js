@@ -1778,20 +1778,36 @@ const SettingsScreen = {
         const authorization = document.createElement('li');
         authorization.classList.add('authorization-item');
         const name = document.createElement('p');
-        name.textContent = client.name;
+        name.textContent = client.registry.name;
         const origin = document.createElement('p');
         origin.classList.add('origin');
-        origin.textContent = new URL(client.redirect_uri).host;
-        const revoke = document.createElement('input');
-        revoke.classList.add('revoke-button', 'text-button');
-        revoke.type = 'button';
-        revoke.value = 'Revoke';
-        revoke.dataset.clientId = client.id;
-        revoke.addEventListener('click', this.revokeAuthorization);
+        origin.textContent = new URL(client.registry.redirect_uri).host;
+        const revokeAll = document.createElement('input');
+        revokeAll.classList.add('revoke-button', 'text-button');
+        revokeAll.type = 'button';
+        revokeAll.value = 'Revoke All';
+        revokeAll.dataset.clientId = client.registry.id;
+        revokeAll.addEventListener('click', this.revokeAuthorization);
 
         authorization.appendChild(name);
         authorization.appendChild(origin);
-        authorization.appendChild(revoke);
+        authorization.appendChild(revokeAll);
+
+        for (const token of client.tokens) {
+          let nickname = token.keyId;
+          try {
+            const metadata = JSON.parse(token.metadata);
+            if (metadata.hasOwnProperty('nickname')) {
+              nickname = metadata.nickname;
+            }
+          } catch (_e) {
+            // Metadata empty or malformed
+          }
+          const name = document.createElement('p');
+          name.textContent = nickname;
+          authorization.appendChild(name);
+        }
+
         authorizationsList.insertBefore(authorization, noAuthorizations);
       }
     });

@@ -14,7 +14,7 @@ import * as express from 'express';
 
 const PromiseRouter = require('express-promise-router');
 import OAuthClients from '../models/oauthclients';
-import {ClientRegistry} from '../oauth-types';
+import {ClientAuthorizationInfo} from '../oauth-types';
 
 const OAuthClientsController = PromiseRouter();
 
@@ -23,9 +23,9 @@ const OAuthClientsController = PromiseRouter();
  */
 OAuthClientsController.get('/', async (request: express.Request, response: express.Response) => {
   let user = (request as any).jwt.user;
-  let clients = await OAuthClients.getAuthorized(user);
+  let authorizedClients = await OAuthClients.getAuthorized(user);
 
-  response.json(clients.map((client: ClientRegistry) => {
+  response.json(authorizedClients.map((client: ClientAuthorizationInfo) => {
     return client.getDescription();
   }));
 });

@@ -159,7 +159,6 @@ class JSONWebToken {
       throw err;
     }
   }
-
 }
 
 module.exports = JSONWebToken;

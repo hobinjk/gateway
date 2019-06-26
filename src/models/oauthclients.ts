@@ -1,7 +1,9 @@
 'use strict';
 
 import { URL } from 'url';
-import {Scope, ClientId, ClientRegistry} from '../oauth-types';
+import {
+  Scope, ClientId, ClientRegistry, ClientAuthorizationInfo
+} from '../oauth-types';
 const config = require('config');
 const Database = require('../db');
 
@@ -35,7 +37,7 @@ class OAuthClients {
     return clients[0];
   }
 
-  async getAuthorized(userId: number): Promise<Array<ClientRegistry>> {
+  async getAuthorized(userId: number): Promise<Array<ClientAuthorizationInfo>> {
     let jwts = await Database.getJSONWebTokensByUser(userId);
     let authorized = new Map();
 
@@ -53,7 +55,14 @@ class OAuthClients {
       if (!defaultClient) {
         continue;
       }
-      authorized.set(payload.client_id, defaultClient);
+      if (!authorized.has(payload.client_id)) {
+        authorized.set(payload.client_id, new ClientAuthorizationInfo(
+          defaultClient,
+          [jwt],
+        ));
+      } else {
+        authorized.get(payload.client_id).tokens.push(jwt);
+      }
     }
 
     return Array.from(authorized.values());

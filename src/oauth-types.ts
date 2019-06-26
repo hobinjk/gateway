@@ -26,6 +26,30 @@ export class ClientRegistry {
   }
 }
 
+type RawJWT = {
+  keyId: string,
+  issuedAt: Date,
+  metadata: string,
+};
+
+export class ClientAuthorizationInfo {
+  constructor(public registry: ClientRegistry, public tokens: Array<RawJWT>) {
+  }
+
+  getDescription() {
+    return {
+      registry: this.registry.getDescription(),
+      tokens: this.tokens.map((token) => {
+        return {
+          keyId: token.keyId,
+          issuedAt: token.issuedAt,
+          metadata: token.metadata,
+        };
+      }),
+    };
+  }
+}
+
 function stringToScope(scopeRaw: ScopeRaw): Scope {
   let scope: Scope = {};
   let scopeParts = scopeRaw.split(' ');
