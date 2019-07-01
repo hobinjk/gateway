@@ -1838,6 +1838,31 @@ const SettingsScreen = {
     });
   },
 
+  updateAuthorizationMetadata: (event) => {
+    const elt = event.target;
+    if (!elt.dataset.clientId) {
+      console.warn('Missing clientId on metadata update', revoke);
+      return;
+    }
+    const nameInput = elt.querySelector('.name');
+    if (!nameInput) {
+      console.error('Broken token element', elt);
+      return;
+    }
+    const clientId = revoke.dataset.clientId;
+    fetch(`/authorizations/${encodeURIComponent(clientId)}`, {
+      headers: API.headers(),
+      method: 'PUT',
+      body: JSON.stringify({
+        name: nameInput.value,
+      }),
+    }).then(() => {
+      // It works
+    }).catch((err) => {
+      console.warn('Unable to update', err);
+    });
+  },
+
   showDeveloperSettings: function() {
     this.developerSettings.classList.remove('hidden');
 
