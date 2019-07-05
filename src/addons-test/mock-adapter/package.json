@@ -22,7 +22,8 @@
   },
   "files": [
     "index.js",
-    "mock-adapter.js"
+    "mock-adapter.js",
+    "mock-notifier.js"
   ],
   "moziot": {
     "api": {

@@ -91,8 +91,8 @@ class MockDevice extends Device {
 }
 
 class MockAdapter extends Adapter {
-  constructor(addonManager, packageName) {
-    super(addonManager, packageName, packageName);
+  constructor(addonManager, manifest) {
+    super(addonManager, manifest.name, manifest.name);
     addonManager.addAdapter(this);
 
     this.port = 12345;
@@ -227,8 +227,4 @@ class MockAdapter extends Adapter {
   }
 }
 
-function loadMockAdapter(addonManager, manifest, _errorCallback) {
-  new MockAdapter(addonManager, manifest.name);
-}
-
-module.exports = loadMockAdapter;
+module.exports = MockAdapter;
