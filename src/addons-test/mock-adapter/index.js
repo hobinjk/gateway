@@ -13,8 +13,8 @@ module.exports = (addonManager, manifest) => {
   new MockAdapter(addonManager, manifest);
 
   try {
-    const MockNotifier = require('./mock-notifier');
-    new MockNotifier(addonManager, manifest);
+    // const MockNotifier = require('./mock-notifier');
+    // new MockNotifier(addonManager, manifest);
   } catch (e) {
     // Don't blow up because it's probably fine
     console.error(e);
