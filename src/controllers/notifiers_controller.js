@@ -38,6 +38,10 @@ NotifiersController.get('/:notifierId/outlets', async (request, response) => {
   response.status(200).json(outletList);
 });
 
+/**
+ * Create a new notification with the title, message, and level contained in
+ * the request body
+ */
 NotifiersController.post(`/:notifierId/outlets/:outletId/notify`, async (request, response) => {
   const notifierId = request.params.notifierId;
   const outletId = request.params.notifierId;
@@ -68,7 +72,6 @@ NotifiersController.post(`/:notifierId/outlets/:outletId/notify`, async (request
     response.status(500).send(e);
   }
 });
-
 
 module.exports = NotifiersController;
 
