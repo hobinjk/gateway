@@ -89,6 +89,12 @@ function mockAdapter() {
 }
 global.mockAdapter = mockAdapter;
 
+function mockNotifier() {
+  const notifier = addonManager.getNotifier('mock-adapter');
+  expect(notifier).not.toBeUndefined();
+  return notifier;
+}
+
 function removeTestManifest() {
   const testManifestFilename = path.join(UserProfile.addonsDir,
                                          'test-adapter', 'package.json');
@@ -110,6 +116,7 @@ beforeAll(async () => {
   // If the mock adapter is a plugin, then it may not be available
   // immediately, so wait for it to be available.
   await addonManager.waitForAdapter('mock-adapter');
+  await addonManager.waitForNotifier('mock-adapter');
 });
 
 afterEach(async () => {
@@ -117,6 +124,10 @@ afterEach(async () => {
   const adapter = addonManager.getAdapter('mock-adapter');
   if (adapter) {
     await adapter.clearState();
+  }
+  const notifier = addonManager.getNotifier('mock-notifier');
+  if (notifier) {
+    await notifier.clearState();
   }
   Actions.clearState();
   Events.clearState();
@@ -142,6 +153,7 @@ jest.setTimeout(60000);
 
 module.exports = {
   mockAdapter,
+  mockNotifier,
   server: servers.https,
   chai,
   httpServer: servers.http,
