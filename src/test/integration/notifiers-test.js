@@ -22,9 +22,7 @@ describe('notifiers/', () => {
 
     expect(res.status).toEqual(200);
     expect(Array.isArray(res.body)).toBeTruthy();
-    expect(res.body.length).toEqual(0);
-    // Testing ends here because debugging why mock-adapter couldn't load a
-    // notifier instance was taking up too much time
+    expect(res.body.length).toEqual(1);
   });
 
   it('fails to get a nonexistent notifier', async () => {
