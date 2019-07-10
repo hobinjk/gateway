@@ -1,0 +1,34 @@
+{
+  "name": "mock-notifier",
+  "display_name": "Mock",
+  "version": "0.2.1",
+  "description": "Mock notifier plugin for Mozilla WebThings Gateway",
+  "author": "Mozilla IoT",
+  "main": "index.js",
+  "keywords": [
+    "mozilla",
+    "iot",
+    "adapter",
+    "mock"
+  ],
+  "homepage": "https://iot.mozilla.org/",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla-iot/gateway.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mozilla-iot/gateway/issues"
+  },
+  "files": [
+    "index.js",
+    "mock-notifier.js"
+  ],
+  "moziot": {
+    "api": {
+      "min": 2,
+      "max": 2
+    },
+    "enabled": true
+  }
+}
